@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vlasov_poisson_solver"
+version = "0.1.0"
+description = "A semi-Lagrangian Vlasov-Poisson solver in 2D+2D using JAX"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT License"}
+authors = [
+  {name = "User", email = "user@example.com"},
+]
+dependencies = [
+    "jax",
+    "jaxlib",
+    "chex",
+    "numpy",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools]
+packages = ["vlasov_poisson_solver"]
+
+[tool.setuptools.package-dir]
+vlasov_poisson_solver = "vlasov_poisson_solver"
