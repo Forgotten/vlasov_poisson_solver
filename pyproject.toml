@@ -17,6 +17,7 @@ dependencies = [
     "jaxlib",
     "chex",
     "numpy",
+    "matplotlib",
 ]
 
 [project.optional-dependencies]
@@ -24,8 +25,8 @@ dev = [
     "pytest",
 ]
 
-[tool.setuptools]
-packages = ["vlasov_poisson_solver"]
+[tool.setuptools.packages.find]
+include = ["vlasov_poisson_solver*"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
