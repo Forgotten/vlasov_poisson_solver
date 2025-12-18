@@ -84,6 +84,7 @@ def main():
     dv = domain_config.dx * domain_config.dy
     electric_energy = 0.5 * jnp.sum(ex**2 + ey**2) * dv
     
+    mass_err = jnp.abs(jnp.sum(f_next) - initial_mass) / initial_mass
     return (f_next, t_next), (mass_err, electric_energy)
 
   start_time = time.time()

@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "A semi-Lagrangian Vlasov-Poisson solver in 2D+2D using JAX"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT License"}
+license = {text = "MIT"}
 authors = [
   {name = "Leonardo Zepeda-Núñez", email = "lzepeda@melix.org"},
 ]
@@ -27,5 +27,5 @@ dev = [
 [tool.setuptools]
 packages = ["vlasov_poisson_solver"]
 
-[tool.setuptools.package-dir]
-vlasov_poisson_solver = "vlasov_poisson_solver"
+[tool.pytest.ini_options]
+pythonpath = ["."]
