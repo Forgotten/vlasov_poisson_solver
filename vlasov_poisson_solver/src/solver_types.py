@@ -2,7 +2,7 @@ import jax
 import jax.numpy as jnp
 from typing import Any, TypeAlias
 
-# Use chex if available, otherwise fallback to Any or jax.Array
+# Use chex if available, otherwise fallback to Any or jax.Array.
 try:
   import chex
   Array = chex.Array
@@ -11,15 +11,15 @@ except ImportError:
   Array = jax.Array
   Scalar = Any
 
-# Type aliases for clarity
-# 4D array: (nx, ny, nvx, nvy)
+# Type aliases for clarity.
+# 4D array: (nx, ny, nvx, nvy).
 PhaseSpaceField: TypeAlias = Array
 
-# 2D array: (nx, ny)
+# 2D array: (nx, ny).
 SpatialField: TypeAlias = Array
 
-# 2D array: (nvx, nvy)
+# 2D array: (nvx, nvy).
 VelocityField: TypeAlias = Array
 
-# 1D array
+# 1D array.
 AxisArray: TypeAlias = Array

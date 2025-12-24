@@ -25,8 +25,8 @@ def advect_2d(
   Returns:
     Advected field evaluated at (coords_x, coords_y).
   """
-  # jax.scipy.ndimage.map_coordinates expects coordinates as (ndim, points)
-  # We flatten the coordinates to (2, nx*ny) and then reshape back
+  # jax.scipy.ndimage.map_coordinates expects coordinates as (ndim, points).
+  # We flatten the coordinates to (2, nx*ny) and then reshape back.
   
   coords = jnp.stack([coords_x, coords_y], axis=0)
   
@@ -49,7 +49,7 @@ def compute_advection_indices(
 ) -> tuple[Array, Array]:
   """
   Computes the departure points (indices) for semi-Lagrangian advection.
-  x_depart = x - v * dt
+  x_depart = x - v * dt.
   
   Args:
     x_indices: Grid indices for x, shape (nx, ny).
@@ -65,20 +65,20 @@ def compute_advection_indices(
   Returns:
     (depart_x, depart_y): Departure indices.
   """
-  # Displacement in physical units
+  # Displacement in physical units.
   disp_x = velocity_x * dt
   disp_y = velocity_y * dt
   
-  # Displacement in index units
+  # Displacement in index units.
   disp_idx_x = disp_x / dx
   disp_idx_y = disp_y / dy
   
-  # Departure indices
+  # Departure indices.
   depart_x = x_indices - disp_idx_x
   depart_y = y_indices - disp_idx_y
   
-  # We don't wrap here because map_coordinates handles 'mode'
-  # But for 'wrap' mode in map_coordinates, it expects indices, and it wraps them
+  # We don't wrap here because map_coordinates handles 'mode'.
+  # But for 'wrap' mode in map_coordinates, it expects indices, and it wraps them.
   # So we can just pass the raw indices.
   
   return depart_x, depart_y

@@ -41,10 +41,10 @@ class PhysicsConfig:
   """Configuration for physical parameters."""
   dt: float = 0.1
   final_time: float = 1.0
-  # Add other physical constants if needed (e.g., charge, mass)
+  # Add other physical constants if needed (e.g., charge, mass).
 
 @dataclass(frozen=True)
 class SolverConfig:
   """Configuration for solver parameters."""
-  interpolation_order: int = 1  # 1: linear (JAX limitation)
+  interpolation_order: int = 1  # 1: linear (JAX limitation).
   cfl_safety: float = 0.5

@@ -11,8 +11,8 @@ def main():
   print("Initializing Two-Stream Instability Simulation...")
   
   # Setting up configuration.
-  # We need a longer domain or specific k to trigger instability
-  # Instability typically occurs for k < 1 (in normalized units)
+  # We need a longer domain or specific k to trigger instability.
+  # Instability typically occurs for k < 1 (in normalized units).
   domain_config = DomainConfig(
       x_min=0.0, x_max=4*jnp.pi,
       y_min=0.0, y_max=4*jnp.pi,
@@ -20,7 +20,7 @@ def main():
       vy_min=-6.0, vy_max=6.0,
       nx=64, ny=64, nvx=64, nvy=64
   )
-  # Instability takes time to grow
+  # Instability takes time to grow.
   physics_config = PhysicsConfig(dt=0.1, final_time=20.0)
   solver_config = SolverConfig(interpolation_order=1)
   
@@ -45,19 +45,19 @@ def main():
   alpha = 0.01
   kx = 0.5
   ky = 0.5
-  v0 = 2.4  # Beam velocity
+  v0 = 2.4  # Beam velocity.
   
   x_grid, y_grid = jnp.meshgrid(solver.x, solver.y, indexing='ij')
   vx_grid, vy_grid = jnp.meshgrid(solver.vx, solver.vy, indexing='ij')
   
-  # Expand dims for broadcasting
+  # Expand dims for broadcasting.
   x_grid = x_grid[:, :, None, None]
   y_grid = y_grid[:, :, None, None]
   vx_grid = vx_grid[None, None, :, :]
   vy_grid = vy_grid[None, None, :, :]
   
   # Counter-streaming beams, formula is given by:
-  # f_v = 1/(2*sqrt(2pi)) * (exp(-(v-v0)^2/2) + exp(-(v+v0)^2/2))
+  # f_v = 1/(2*sqrt(2pi)) * (exp(-(v-v0)^2/2) + exp(-(v+v0)^2/2)).
   # Standard 1D two-stream is in vx so we keep vy Maxwellian.
   
   f_vx = (1.0 / (2 * jnp.sqrt(2 * jnp.pi))) * (
@@ -86,7 +86,7 @@ def main():
     f_next = solver.step(f_curr, t_curr)
     t_next = t_curr + physics_config.dt
     
-    # Calculate electric field energy
+    # Calculate electric field energy.
     rho = solver._compute_rho(f_curr)
     _, (ex, ey) = jax.lax.stop_gradient(
         solve_poisson_fft(rho, solver.domain_config)
