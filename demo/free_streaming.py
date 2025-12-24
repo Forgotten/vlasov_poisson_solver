@@ -19,7 +19,7 @@ class FreeStreamingSolver(VlasovPoissonSolver):
 def main():
   print("Initializing Free Streaming Simulation...")
   
-  # 1. Configuration.
+  # Configuration.
   domain_config = DomainConfig(
       x_min=0.0, x_max=1.0,
       y_min=0.0, y_max=1.0,
@@ -30,7 +30,7 @@ def main():
   physics_config = PhysicsConfig(dt=0.01, final_time=1.0)
   solver_config = SolverConfig(interpolation_order=1)
   
-  # 2. Create Solver.
+  # Create Solver.
   try:
     mesh = create_mesh((1, 1), ('x', 'y'))
   except:
@@ -40,7 +40,7 @@ def main():
       domain_config, physics_config, solver_config, mesh=mesh
   )
   
-  # 3. Initial Condition: Gaussian Pulse.
+  # Initial condition: Gaussian pulse.
   print("Setting up initial conditions...")
   sigma = 0.1
   x_grid, y_grid = jnp.meshgrid(solver.x, solver.y, indexing='ij')
@@ -52,7 +52,7 @@ def main():
   vx_grid = vx_grid[None, None, :, :]
   vy_grid = vy_grid[None, None, :, :]
   
-  # Gaussian in x, y, vx, vy centered at 0.5, 0.5, 0, 0.
+  # Gaussian in x, y, vx, and vy centered at (0.5, 0.5, 0, 0).
   f0 = jnp.exp(
       -((x_grid - 0.5)**2 + (y_grid - 0.5)**2) / (2 * sigma**2)
       - (vx_grid**2 + vy_grid**2) / (2 * sigma**2)
@@ -60,7 +60,7 @@ def main():
   
   f = f0
   
-  # 4. Time Loop.
+  # Time loop.
   num_steps = int(physics_config.final_time / physics_config.dt)
   print(f"Starting simulation for {num_steps} steps...")
   
@@ -78,7 +78,7 @@ def main():
   end_time = time.time()
   print(f"Simulation complete in {end_time - start_time:.2f} seconds.")
   
-  # 5. Analytical Solution Check.
+  # Analytical solution check.
   # f_analytical(x, v, t) = f0(x - v*t, v).
   # We need to compute f0 at shifted coordinates.
   # Since f0 is Gaussian, we can evaluate it directly.
@@ -103,7 +103,7 @@ def main():
   print(f"Max Error: {max_error:.2e}")
   print(f"L2 Error:  {l2_error:.2e}")
   
-  # 6. Plotting.
+  # Plotting.
   print("Plotting results...")
   
   # Plot spatial density slice.

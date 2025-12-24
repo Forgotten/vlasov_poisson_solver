@@ -8,7 +8,7 @@ from vlasov_poisson_solver import (
 )
 
 def main():
-  print("Initializing Two-Stream Instability Simulation...")
+  print("Initializing two-stream instability simulation...")
   
   # Setting up configuration.
   # We need a longer domain or specific k to trigger instability.
@@ -115,8 +115,8 @@ def main():
   plt.figure(figsize=(6, 4))
   plt.semilogy(times, electric_energies)
   plt.xlabel('Time')
-  plt.ylabel('Electric Field Energy')
-  plt.title('Two-Stream Instability: Energy Growth')
+  plt.ylabel('Electric field energy')
+  plt.title('Two-stream instability: energy growth')
   plt.grid(True, alpha=0.3)
   plt.savefig('two_stream_energy.png', dpi=150)
   print("Energy plot saved to two_stream_energy.png")
@@ -133,7 +133,7 @@ def main():
       extent=[solver.x[0], solver.x[-1], solver.y[0], solver.y[-1]],
       origin='lower', cmap='viridis'
   )
-  axes[0].set_title('Initial Density')
+  axes[0].set_title('Initial density')
   fig.colorbar(im0, ax=axes[0])
   
   im1 = axes[1].imshow(
@@ -141,7 +141,7 @@ def main():
       extent=[solver.x[0], solver.x[-1], solver.y[0], solver.y[-1]],
       origin='lower', cmap='viridis'
   )
-  axes[1].set_title(f'Final Density (t={t_final:.1f})')
+  axes[1].set_title(f'Final density (t={t_final:.1f})')
   fig.colorbar(im1, ax=axes[1])
   
   plt.tight_layout()

@@ -1,18 +1,17 @@
 import jax
 import jax.numpy as jnp
 from functools import partial
-from .solver_types import Array
+from .solver_types import Array, SpatialField
 
 @partial(jax.jit, static_argnames=['order', 'mode'])
 def advect_2d(
-    f: Array,
-    coords_x: Array,
-    coords_y: Array,
+    f: SpatialField,
+    coords_x: SpatialField,
+    coords_y: SpatialField,
     order: int = 1,
     mode: str = 'wrap'
-) -> Array:
-  """
-  Advects a 2D field f using interpolation at coordinates (coords_x, coords_y).
+) -> SpatialField:
+  """Advects a 2D field f using interpolation at coordinates (coords_x, coords_y).
   
   Args:
     f: 2D field to advect, shape (nx, ny).
@@ -47,9 +46,10 @@ def compute_advection_indices(
     nx: int,
     ny: int
 ) -> tuple[Array, Array]:
-  """
-  Computes the departure points (indices) for semi-Lagrangian advection.
-  x_depart = x - v * dt.
+  """Computes the departure points (indices) for semi-Lagrangian advection.
+  
+  The departure points are computed as
+    x_depart = x - v * dt.
   
   Args:
     x_indices: Grid indices for x, shape (nx, ny).
@@ -69,7 +69,7 @@ def compute_advection_indices(
   disp_x = velocity_x * dt
   disp_y = velocity_y * dt
   
-  # Displacement in index units.
+  # Displacement in index units (with fractional steps).
   disp_idx_x = disp_x / dx
   disp_idx_y = disp_y / dy
   

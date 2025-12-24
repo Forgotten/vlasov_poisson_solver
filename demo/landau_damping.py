@@ -10,7 +10,7 @@ from vlasov_poisson_solver import (
 def main():
   print("Initializing Landau Damping Simulation...")
   
-  # 1. Configuration.
+  # Configuration.
   domain_config = DomainConfig(
       x_min=0.0, x_max=4*jnp.pi,
       y_min=0.0, y_max=4*jnp.pi,
@@ -25,7 +25,7 @@ def main():
         f"{domain_config.nvx}x{domain_config.nvy} velocity")
   print(f"Physics: dt={physics_config.dt}, T_final={physics_config.final_time}")
 
-  # 2. Create Solver.
+  # Create solver.
   try:
     mesh = create_mesh((1, 1), ('x', 'y'))
     print("Solver initialized with mesh.")
@@ -37,7 +37,7 @@ def main():
       domain_config, physics_config, solver_config, mesh=mesh
   )
   
-  # 3. Initial Condition: Landau Damping.
+  # Initial condition: Landau damping.
   print("Setting up initial conditions...")
   alpha = 0.01
   kx = 0.5
@@ -103,10 +103,10 @@ def main():
   
   final_mass = jnp.sum(f_final)
   final_error = jnp.abs(final_mass - initial_mass) / initial_mass
-  print(f"Final Mass Error: {final_error:.2e}")
+  print(f"Final mass error: {final_error:.2e}")
   
   # --- Benchmarking ---
-  print("\n--- Landau Damping Benchmark ---")
+  print("\n--- Landau damping benchmark ---")
   # Theoretical decay rate for k=0.5 is gamma approx -0.1533.
   # E(t) ~ exp(gamma * t) -> Energy ~ E^2 ~ exp(2 * gamma * t).
   # So log(Energy) ~ 2 * gamma * t + C.
@@ -137,19 +137,19 @@ def main():
   fitted_gamma = slope / 2.0
   theoretical_gamma = -0.1533
   
-  print(f"Fitted Decay Rate (gamma): {fitted_gamma:.4f}")
-  print(f"Theoretical Decay Rate:    {theoretical_gamma:.4f}")
-  print(f"Relative Error:            {abs((fitted_gamma - theoretical_gamma)/theoretical_gamma)*100:.2f}%")
+  print(f"Fitted decay rate (gamma): {fitted_gamma:.4f}")
+  print(f"Theoretical decay rate:    {theoretical_gamma:.4f}")
+  print(f"Relative error:            {abs((fitted_gamma - theoretical_gamma)/theoretical_gamma)*100:.2f}%")
   
-  # Plot Energy.
+  # Plot energy.
   plt.figure(figsize=(6, 4))
   plt.semilogy(times, electric_energies, label='Simulation')
   # Plot fitted line.
   plt.semilogy(fit_times, jnp.exp(slope * fit_times + (sum_y - slope * sum_x)/N), 
                'r--', label=f'Fit (gamma={fitted_gamma:.3f})')
   plt.xlabel('Time')
-  plt.ylabel('Electric Field Energy')
-  plt.title('Landau Damping: Energy Decay')
+  plt.ylabel('Electric field energy')
+  plt.title('Landau damping: energy decay')
   plt.legend()
   plt.grid(True, alpha=0.3)
   plt.savefig('landau_energy.png', dpi=150)
@@ -166,26 +166,26 @@ def main():
   # Create a figure with two subplots.
   fig, axes = plt.subplots(1, 2, figsize=(12, 5))
   
-  # Initial Density.
+  # Initial density.
   im0 = axes[0].imshow(
       rho_initial.T, 
       extent=[solver.x[0], solver.x[-1], solver.y[0], solver.y[-1]],
       origin='lower',
       cmap='viridis'
   )
-  axes[0].set_title('Initial Density (t=0)')
+  axes[0].set_title('Initial density (t=0)')
   axes[0].set_xlabel('x')
   axes[0].set_ylabel('y')
   fig.colorbar(im0, ax=axes[0])
   
-  # Final Density.
+  # Final density.
   im1 = axes[1].imshow(
       rho_final.T, 
       extent=[solver.x[0], solver.x[-1], solver.y[0], solver.y[-1]],
       origin='lower',
       cmap='viridis'
   )
-  axes[1].set_title(f'Final Density (t={t_final:.1f})')
+  axes[1].set_title(f'Final density (t={t_final:.1f})')
   axes[1].set_xlabel('x')
   axes[1].set_ylabel('y')
   fig.colorbar(im1, ax=axes[1])
